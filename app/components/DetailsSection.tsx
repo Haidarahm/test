@@ -5,18 +5,11 @@ import React, { useEffect, useState } from 'react'
 // ─── Breakpoints (px) ────────────────────────────────────────────────────────
 const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 } as const
 type Breakpoint = keyof typeof BREAKPOINTS
-// ─── Position type ────────────────────────────────────────────────────────────
-// top / left / right are CSS strings: px, %, vh, vw — anything you want
 type ScreenPos = {
   top: string
   left?: string
   right?: string
 }
-
-// ─── Feature definitions ─────────────────────────────────────────────────────
-// Edit the positions per breakpoint freely.
-// The component picks the largest breakpoint that fits the current width.
-// Fallback (default) is used when width < sm.
 const features: {
   id: number
   title: string
@@ -72,6 +65,7 @@ const features: {
 function useWindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 })
   useEffect(() => {
+
     function update() {
       setSize({ width: window.innerWidth, height: window.innerHeight })
     }
@@ -100,8 +94,8 @@ const DetailsSection = () => {
   const { width } = useWindowSize()
 
   const bottleWidth = Math.round(Math.min(Math.max(width * 0.22, 160), 320))
-  const lineWidth   = Math.round(Math.min(Math.max(width * 0.055, 40), 80))
-  const titleSize   = Math.round(Math.min(Math.max(width * 0.012, 12), 16))
+  const lineWidth= Math.round(Math.min(Math.max(width * 0.055, 40), 80))
+  const titleSize= Math.round(Math.min(Math.max(width * 0.012, 12), 16))
   const descSize    = Math.round(Math.min(Math.max(width * 0.009, 10), 13))
 
   return (
