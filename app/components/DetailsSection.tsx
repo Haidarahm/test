@@ -48,8 +48,10 @@ const DetailsSection = () => {
   }, [width])
 
   return (
-    <section ref={sectionRef} className="emigo-technology h-screen relative overflow-hidden bg-white">
-
+    <section ref={sectionRef} className="emigo-technology h-screen relative overflow-hidden ">
+<div className="background absolute w-full h-full opacity-5 right-1/2">
+        <img src="/images/background.jpg" alt="" />
+      </div>
       <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right">
         <h1 className="title uppercase font-semibold leading-tight" style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}>
           emigo <br /> advanced <br /> technology

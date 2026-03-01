@@ -30,7 +30,11 @@ const Cards = () => {
   }, [])
 
   return (
-    <section className="emigo-container h-screen flex flex-col">
+    <section className="emigo-container relative h-screen flex flex-col">
+      <div className="background absolute w-full h-full opacity-5">
+        <img src="/images/background.jpg" alt="" />
+
+      </div>
       <h1 ref={titleRef} className="title h-fit font-ibrand uppercase font-normal text-[84px] w-full text-center leading-[100%]">
         shop <br /> emigo <br /> container
       </h1>
