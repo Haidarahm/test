@@ -6,14 +6,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─── Breakpoints (px) ────────────────────────────────────────────────────────
 const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 } as const
 type Breakpoint = keyof typeof BREAKPOINTS
-type ScreenPos = {
-  top: string
-  left?: string
-  right?: string
-}
+type ScreenPos = { top: string; left?: string; right?: string }
+
 const features: {
   id: number
   title: string
@@ -65,14 +61,10 @@ const features: {
   },
 ]
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 function useWindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 })
   useEffect(() => {
-
-    function update() {
-      setSize({ width: window.innerWidth, height: window.innerHeight })
-    }
+    function update() { setSize({ width: window.innerWidth, height: window.innerHeight }) }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
@@ -80,11 +72,7 @@ function useWindowSize() {
   return size
 }
 
-// Returns the position config for the current width
-function resolvePosition(
-  positions: (typeof features)[0]['positions'],
-  width: number
-): ScreenPos {
+function resolvePosition(positions: (typeof features)[0]['positions'], width: number): ScreenPos {
   const order: (Breakpoint | 'default')[] = ['2xl', 'xl', 'lg', 'md', 'sm', 'default']
   for (const bp of order) {
     if (bp === 'default') return positions.default
@@ -93,7 +81,6 @@ function resolvePosition(
   return positions.default
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
 const DetailsSection = () => {
   const { width } = useWindowSize()
 
@@ -102,39 +89,30 @@ const DetailsSection = () => {
   const titleSize   = Math.round(Math.min(Math.max(width * 0.012, 12), 16))
   const descSize    = Math.round(Math.min(Math.max(width * 0.009, 10), 13))
 
-  const sectionRef   = useRef<HTMLElement>(null)
-  const titleRef     = useRef<HTMLDivElement>(null)
-  const bottleRef    = useRef<HTMLImageElement>(null)
-  const featureRefs  = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef  = useRef<HTMLElement>(null)
+  const titleRef    = useRef<HTMLDivElement>(null)
+  const bottleRef   = useRef<HTMLImageElement>(null)
+  const featureRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     if (width === 0) return
 
     const ctx = gsap.context(() => {
-      // Set initial states before ScrollTrigger fires
+      const els = featureRefs.current
       gsap.set(titleRef.current, { opacity: 0, x: 40 })
-      gsap.set(bottleRef.current, { opacity: 0, scale: 0.8 })
-      featureRefs.current.forEach((el, i) => {
-        if (!el) return
-        const fromX = features[i].side === 'left' ? -30 : 30
-        gsap.set(el, { opacity: 0, x: fromX })
-      })
+      gsap.set(bottleRef.current, { opacity: 0, scale: 0.85 })
+      els.forEach((el, i) => el && gsap.set(el, { opacity: 0, x: features[i].side === 'left' ? -30 : 30 }))
 
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',   // fires when top of section hits 80% of viewport
-          once: true,          // only plays once
-        },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', once: true },
       })
 
       tl.to(titleRef.current, { opacity: 1, x: 0, duration: 0.7 })
-        .to(bottleRef.current, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.3')
+        .to(bottleRef.current, { opacity: 1, scale: 1, duration: 0.7 }, '-=0.3')
 
-      featureRefs.current.forEach((el, i) => {
-        if (!el) return
-        tl.to(el, { opacity: 1, x: 0, duration: 0.6 }, `-=${i === 0 ? 0.2 : 0.4}`)
+      els.forEach((el, i) => {
+        if (el) tl.to(el, { opacity: 1, x: 0, duration: 0.5 }, '-=0.3')
       })
     }, sectionRef)
 
@@ -144,25 +122,17 @@ const DetailsSection = () => {
   return (
     <section ref={sectionRef} className="emigo-technology h-screen relative overflow-hidden bg-white">
 
-      {/* Title top-right */}
       <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right">
-        <h1
-          className="title uppercase font-semibold leading-tight"
-          style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}
-        >
+        <h1 className="title uppercase font-semibold leading-tight" style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}>
           emigo <br /> advanced <br /> technology
         </h1>
-        <p
-          className="font-light uppercase mt-2 leading-snug"
-          style={{ fontSize: `clamp(10px, ${width * 0.009}px, 14px)` }}
-        >
+        <p className="font-light uppercase mt-2 leading-snug" style={{ fontSize: `clamp(10px, ${width * 0.009}px, 14px)` }}>
           The emiGo container combines built in <br />
           heating and smart sensors for precise <br />
           temperature control every time
         </p>
       </div>
 
-      {/* Center bottle */}
       <div className="absolute inset-0 flex items-center justify-center z-0">
         <img
           ref={bottleRef}
@@ -173,7 +143,6 @@ const DetailsSection = () => {
         />
       </div>
 
-      {/* Feature annotations */}
       {features.map((feature, i) => {
         const pos = resolvePosition(feature.positions, width)
         return (
@@ -184,7 +153,6 @@ const DetailsSection = () => {
             style={{ top: pos.top, left: pos.left, right: pos.right }}
           >
             <div className={`flex items-start gap-2 ${feature.side === 'right' ? 'flex-row-reverse' : ''}`}>
-              {/* Text block */}
               <div
                 className={feature.side === 'right' ? 'text-left' : 'text-right'}
                 style={{ maxWidth: `${Math.round(Math.min(width * 0.18, 220))}px` }}
@@ -192,12 +160,11 @@ const DetailsSection = () => {
                 <p className="font-semibold leading-tight mb-1" style={{ fontSize: titleSize }}>
                   {feature.title}
                 </p>
-                <p className="font-light leading-snug whitespace-pre-line text-gray-500 text-[14px]" style={{ fontSize: descSize }}>
+                <p className="font-light leading-snug whitespace-pre-line text-gray-500" style={{ fontSize: descSize }}>
                   {feature.description}
                 </p>
               </div>
 
-              {/* Line + dot */}
               <div className={`flex items-center gap-1 mt-1 ${feature.side === 'right' ? 'flex-row-reverse' : ''}`}>
                 <svg height="1" style={{ width: lineWidth }} className="overflow-visible">
                   <line x1="0" y1="0" x2="100%" y2="0" stroke="#9ca3af" strokeWidth="1" strokeDasharray="5,10" />
