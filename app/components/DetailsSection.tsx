@@ -161,7 +161,9 @@ const DetailsSection = () => {
 
               {/* Line + dot */}
               <div className={`flex items-center gap-1 mt-1 ${feature.side === 'right' ? 'flex-row-reverse' : ''}`}>
-                <div className="h-px bg-gray-400" style={{ width: lineWidth }} />
+                <svg height="1" style={{ width: lineWidth }} className="overflow-visible">
+                  <line x1="0" y1="0" x2="100%" y2="0" stroke="#9ca3af" strokeWidth="1" strokeDasharray="5,10" />
+                </svg>
                 <div className="dots relative w-5 h-5 flex justify-center items-center rounded-full bg-[#11111133] ">
                 <div className=" absolute w-4 h-4 rounded-full bg-[#11111199] shrink-0" />
                 <div className="absolute  w-2 h-2 rounded-full bg-[#111111] shrink-0" />
