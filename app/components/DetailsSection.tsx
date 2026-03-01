@@ -34,8 +34,8 @@ const features: {
       default: { top: '18%', left: '2%' },
       sm:      { top: '20%', left: '3%' },
       md:      { top: '22%', left: '4%' },
-      lg:      { top: '22%', left: '4%' },
-      xl:      { top: '22%', left: '5%' },
+      lg:      { top: '22%', left: '23%' },
+      xl:      { top: '22%', left: '25%' },
       '2xl':   { top: '29%', left: '26%' },
     },
   },
@@ -48,8 +48,8 @@ const features: {
       default: { top: '54%', left: '2%' },
       sm:      { top: '56%', left: '3%' },
       md:      { top: '58%', left: '4%' },
-      lg:      { top: '58%', left: '4%' },
-      xl:      { top: '60%', left: '5%' },
+      lg:      { top: '58%', left: '17%' },
+      xl:      { top: '60%', left: '20%' },
       '2xl':   { top: '60%', left: '22%' },
     },
   },
@@ -62,8 +62,8 @@ const features: {
       default: { top: '34%', right: '2%' },
       sm:      { top: '36%', right: '3%' },
       md:      { top: '38%', right: '4%' },
-      lg:      { top: '38%', right: '4%' },
-      xl:      { top: '40%', right: '5%' },
+      lg:      { top: '38%', right: '20%' },
+      xl:      { top: '40%', right: '20%' },
       '2xl':   { top: '40%', right: '22%' },
     },
   },
@@ -154,7 +154,7 @@ const DetailsSection = () => {
                 <p className="font-semibold leading-tight mb-1" style={{ fontSize: titleSize }}>
                   {feature.title}
                 </p>
-                <p className="font-light leading-snug whitespace-pre-line text-gray-500" style={{ fontSize: descSize }}>
+                <p className="font-light leading-snug whitespace-pre-line text-gray-500 text-[14px]" style={{ fontSize: descSize }}>
                   {feature.description}
                 </p>
               </div>
