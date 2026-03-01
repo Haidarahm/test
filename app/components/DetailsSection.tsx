@@ -1,6 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 // ─── Breakpoints (px) ────────────────────────────────────────────────────────
 const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 } as const
@@ -94,15 +98,54 @@ const DetailsSection = () => {
   const { width } = useWindowSize()
 
   const bottleWidth = Math.round(Math.min(Math.max(width * 0.22, 160), 320))
-  const lineWidth= Math.round(Math.min(Math.max(width * 0.055, 40), 80))
-  const titleSize= Math.round(Math.min(Math.max(width * 0.012, 12), 16))
+  const lineWidth   = Math.round(Math.min(Math.max(width * 0.055, 40), 80))
+  const titleSize   = Math.round(Math.min(Math.max(width * 0.012, 12), 16))
   const descSize    = Math.round(Math.min(Math.max(width * 0.009, 10), 13))
 
+  const sectionRef   = useRef<HTMLElement>(null)
+  const titleRef     = useRef<HTMLDivElement>(null)
+  const bottleRef    = useRef<HTMLImageElement>(null)
+  const featureRefs  = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (width === 0) return
+
+    const ctx = gsap.context(() => {
+      // Set initial states before ScrollTrigger fires
+      gsap.set(titleRef.current, { opacity: 0, x: 40 })
+      gsap.set(bottleRef.current, { opacity: 0, scale: 0.8 })
+      featureRefs.current.forEach((el, i) => {
+        if (!el) return
+        const fromX = features[i].side === 'left' ? -30 : 30
+        gsap.set(el, { opacity: 0, x: fromX })
+      })
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',   // fires when top of section hits 80% of viewport
+          once: true,          // only plays once
+        },
+      })
+
+      tl.to(titleRef.current, { opacity: 1, x: 0, duration: 0.7 })
+        .to(bottleRef.current, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.3')
+
+      featureRefs.current.forEach((el, i) => {
+        if (!el) return
+        tl.to(el, { opacity: 1, x: 0, duration: 0.6 }, `-=${i === 0 ? 0.2 : 0.4}`)
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [width])
+
   return (
-    <section className="emigo-technology h-screen relative overflow-hidden bg-white">
+    <section ref={sectionRef} className="emigo-technology h-screen relative overflow-hidden bg-white">
 
       {/* Title top-right */}
-      <div className="title-description absolute top-6 right-6 z-10 text-right">
+      <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right">
         <h1
           className="title uppercase font-semibold leading-tight"
           style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}
@@ -122,6 +165,7 @@ const DetailsSection = () => {
       {/* Center bottle */}
       <div className="absolute inset-0 flex items-center justify-center z-0">
         <img
+          ref={bottleRef}
           src="/images/bottle.png"
           alt="emiGo container"
           style={{ width: bottleWidth }}
@@ -130,11 +174,12 @@ const DetailsSection = () => {
       </div>
 
       {/* Feature annotations */}
-      {features.map((feature) => {
+      {features.map((feature, i) => {
         const pos = resolvePosition(feature.positions, width)
         return (
           <div
             key={feature.id}
+            ref={(el) => { featureRefs.current[i] = el }}
             className="absolute z-10"
             style={{ top: pos.top, left: pos.left, right: pos.right }}
           >
@@ -157,10 +202,9 @@ const DetailsSection = () => {
                 <svg height="1" style={{ width: lineWidth }} className="overflow-visible">
                   <line x1="0" y1="0" x2="100%" y2="0" stroke="#9ca3af" strokeWidth="1" strokeDasharray="5,10" />
                 </svg>
-                <div className="dots relative w-5 h-5 flex justify-center items-center rounded-full bg-[#11111133] ">
-                <div className=" absolute w-4 h-4 rounded-full bg-[#11111199] shrink-0" />
-                <div className="absolute  w-2 h-2 rounded-full bg-[#111111] shrink-0" />
-
+                <div className="dots relative w-5 h-5 flex justify-center items-center rounded-full bg-[#11111133]">
+                  <div className="absolute w-4 h-4 rounded-full bg-[#11111199] shrink-0" />
+                  <div className="absolute w-2 h-2 rounded-full bg-[#111111] shrink-0" />
                 </div>
               </div>
             </div>
