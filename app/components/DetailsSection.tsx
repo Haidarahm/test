@@ -162,7 +162,11 @@ const DetailsSection = () => {
               {/* Line + dot */}
               <div className={`flex items-center gap-1 mt-1 ${feature.side === 'right' ? 'flex-row-reverse' : ''}`}>
                 <div className="h-px bg-gray-400" style={{ width: lineWidth }} />
-                <div className="w-2 h-2 rounded-full bg-gray-400 shrink-0" />
+                <div className="dots relative w-5 h-5 flex justify-center items-center rounded-full bg-[#11111133] ">
+                <div className=" absolute w-4 h-4 rounded-full bg-[#11111199] shrink-0" />
+                <div className="absolute  w-2 h-2 rounded-full bg-[#111111] shrink-0" />
+
+                </div>
               </div>
             </div>
           </div>
