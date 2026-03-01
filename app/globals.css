@@ -66,16 +66,10 @@
   font-display: swap;
 }
 
-:root {
+@theme inline {
   --color-text: #111111;
   --color-background: #ffffff;
   --color-text-secondary: #a1a1a1;
-}
-
-@theme inline {
-  --color-text: var(--color-text);
-  --color-background: var(--color-background);
-  --color-text-secondary: var(--color-text-secondary);
   --font-blauer: "Blauer Nue", sans-serif;
   --font-ibrand: "iBrand", sans-serif;
 }
