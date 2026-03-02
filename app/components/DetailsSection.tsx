@@ -52,11 +52,11 @@ const DetailsSection = () => {
 <div className="background absolute w-full h-full opacity-5 right-1/2">
         <img src="/images/background.jpg" alt="" />
       </div>
-      <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right">
-        <h1 className="title uppercase font-semibold leading-tight" style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}>
+      <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right flex flex-col justify-end gap-4">
+        <h1 className="title uppercase font-semibold leading-[100%] " style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}>
           emigo <br /> advanced <br /> technology
         </h1>
-        <p className="font-light uppercase mt-2 leading-snug" style={{ fontSize: `clamp(10px, ${width * 0.009}px, 14px)` }}>
+        <p className="font-light uppercase  leading-snug text-[14px]">
           The emiGo container combines built in <br />
           heating and smart sensors for precise <br />
           temperature control every time
