@@ -177,30 +177,28 @@ const DetailsSection = () => {
       </div>
 
       {/* SECOND SECTION */}
-      <div className="emigo-technology-details  hidden md:flex min-h-screen w-full px-12">
+      <div className="emigo-technology-details hidden md:flex min-h-screen w-full ">
 
-{/* LEFT SIDE — FEATURES LIST */}
-<div className="w-1/2 flex items-center px-20">
-  <div className="w-full max-w-xl">
+    <div className="w-1/2 flex items-center ">
+        <div className="w-full max-w-xl">
 
-    {features.map((feature, i) => (
-      <div key={feature.id}>
+             {features.map((feature, i) => (
+            <div key={feature.id}>
 
-        <div className="py-8">
-          <p className="text-lg font-semibold mb-2">
-            {feature.title}
-          </p>
+               <div className="py-8">
+              <p className="text-lg font-semibold mb-2">
+                  {feature.title}
+                </p>
 
-          <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line">
-            {feature.description}
-          </p>
-        </div>
+             <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line">
+               {feature.description}
+             </p>
+         </div>
 
         {/* Divider (except last item) */}
-        {i !== features.length - 1 && (
-          <div className="h-px w-full bg-gray-200" />
-        )}
-
+           {i !== features.length - 1 && (
+              <div className="h-px w-full bg-gray-200" />
+           )}
       </div>
     ))}
 
