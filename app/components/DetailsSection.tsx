@@ -51,15 +51,12 @@ const DetailsSection = () => {
 
   return (
     <section ref={sectionRef} className="emigo-technology min-h-screen relative overflow-hidden">
-      {/* Background */}
       <div className="background absolute w-full h-full opacity-5 right-1/2">
         <img src="/images/background.jpg" alt="" />
       </div>
 
-      {/* ── MOBILE layout ────────────────────────────────────── */}
       {isMobile ? (
         <div className="relative z-10 flex flex-col items-center gap-8 px-6 pt-10 pb-16">
-          {/* Title */}
           <div ref={titleRef} className="text-center flex flex-col items-center gap-3">
             <h1
               className="title uppercase font-semibold leading-[100%]"
@@ -74,7 +71,6 @@ const DetailsSection = () => {
             </p>
           </div>
 
-          {/* Bottle */}
           <img
             ref={bottleRef}
             src="/images/bottle.png"
@@ -83,7 +79,6 @@ const DetailsSection = () => {
             className="h-auto rotate-15 drop-shadow-2xl"
           />
 
-          {/* Features list */}
           <div className="w-full flex flex-col gap-5">
             {features.map((feature, i) => (
               <div
@@ -91,12 +86,10 @@ const DetailsSection = () => {
                 ref={(el) => { featureRefs.current[i] = el }}
                 className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm"
               >
-                {/* Dot */}
                 <div className="dots relative w-5 h-5 mt-0.5 flex-shrink-0 flex justify-center items-center rounded-full bg-[#11111133]">
                   <div className="absolute w-4 h-4 rounded-full bg-[#11111199]" />
                   <div className="absolute w-2 h-2 rounded-full bg-[#111111]" />
                 </div>
-                {/* Text */}
                 <div>
                   <p className="font-semibold text-[14px] leading-tight mb-0.5">{feature.title}</p>
                   <p className="font-light text-[12px] leading-snug text-gray-500 whitespace-pre-line">
@@ -108,7 +101,6 @@ const DetailsSection = () => {
           </div>
         </div>
       ) : (
-        /* ── DESKTOP layout (original absolute-positioned design) ── */
         <>
           <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right flex flex-col justify-end gap-4">
             <h1

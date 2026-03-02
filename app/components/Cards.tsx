@@ -39,7 +39,7 @@ const Cards = () => {
   return (
     <section className="emigo-container relative h-screen flex flex-col items-center md:items-start justify-center md:justify-start">
       <div className="background absolute w-full h-full opacity-5">
-        <img src="/images/background.jpg" alt="" />
+        <img src="/images/background.jpg" alt="background" />
       </div>
 
       <h1
