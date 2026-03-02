@@ -23,57 +23,89 @@ const DetailsSection = () => {
   const titleSize = Math.round(Math.min(Math.max(width * 0.012, 12), 16))
   const descSize = Math.round(Math.min(Math.max(width * 0.009, 10), 13))
 
- useLayoutEffect(() => {
-  if (!width || isMobile) return
-  if (!bottleRef.current) return
+  useLayoutEffect(() => {
+    if (!width) return
 
-  const ctx = gsap.context(() => {
-    const bottle = bottleRef.current
-    const section = sectionRef.current
-    
-    // Get the section's padding
-    const sectionStyles = section ? window.getComputedStyle(section) : null
-    const paddingLeft = sectionStyles ? parseFloat(sectionStyles.paddingLeft) : 0
-    const paddingRight = sectionStyles ? parseFloat(sectionStyles.paddingRight) : 0
-    
-    // Calculate available width accounting for padding
-    const availableWidth = width - paddingLeft - paddingRight
-    
-    // Calculate moveX based on available width, not total width
-    const moveX = (availableWidth * 0.3) + paddingLeft // Add paddingLeft to offset from left edge
-    
-    const moveY = window.innerHeight * 0.35
-    
-    // Let GSAP control transforms
-    gsap.set(bottle, {
-      rotate: 15,
-      x: 0,
-      y: 0,
-      transformOrigin: "center center",
-      willChange: "transform",
-    })
+    const ctx = gsap.context(() => {
+      // ── FIRST SECTION ANIMATIONS ──────────────────────────────────────────
+      const firstSection = document.querySelector('.emigo-techmology')
+      if (firstSection) {
+        const firstElements = firstSection.querySelectorAll('h1, p, .feature-item')
+        gsap.set(firstElements, { opacity: 0, y: 40 })
+        gsap.to(firstElements, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: firstSection,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
 
-    // Move bottle to right-center (30% of available width)
-    gsap.to(bottle, {
-      x: moveX,
-      rotate: 0,  
-      y: moveY + 400,
-      scrollTrigger: {
-        trigger: ".emigo-techmology",
-        start: "top+=30% top",
-        endTrigger: ".emigo-technology-details",
-        end: "top center",
-        scrub: 1.5,
-      },
-    })
+      // ── SECOND SECTION ANIMATIONS ─────────────────────────────────────────
+      const secondSection = document.querySelector('.emigo-technology-details')
+      if (secondSection) {
+        const secondElements = secondSection.querySelectorAll('p')
+        gsap.set(secondElements, { opacity: 0, y: 40 })
+        gsap.to(secondElements, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: secondSection,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      }
 
-  }, sectionRef)
+      // ── BOTTLE SCROLL ANIMATION (desktop only) ────────────────────────────
+      if (!isMobile && bottleRef.current) {
+        const bottle = bottleRef.current
+        const section = sectionRef.current
 
-  return () => ctx.revert()
-}, [width, isMobile])
+        const sectionStyles = section ? window.getComputedStyle(section) : null
+        const paddingLeft = sectionStyles ? parseFloat(sectionStyles.paddingLeft) : 0
+        const paddingRight = sectionStyles ? parseFloat(sectionStyles.paddingRight) : 0
+
+        const availableWidth = width - paddingLeft - paddingRight
+        const moveX = availableWidth * 0.3 + paddingLeft
+        const moveY = window.innerHeight * 0.35
+
+        gsap.set(bottle, {
+          rotate: 15,
+          x: 0,
+          y: 0,
+          transformOrigin: 'center center',
+          willChange: 'transform',
+        })
+
+        gsap.to(bottle, {
+          x: moveX,
+          rotate: 0,
+          y: moveY + 400,
+          scrollTrigger: {
+            trigger: '.emigo-techmology',
+            start: 'top+=30% top',
+            endTrigger: '.emigo-technology-details',
+            end: 'top center',
+            scrub: 1.5,
+          },
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [width, isMobile])
 
   return (
-    <section ref={sectionRef} className="min-h-screen relative px-10">
+    <section ref={sectionRef} className="min-h-screen relative px-10 overflow-hidden">
 
       {/* FIRST SECTION */}
       <div className="emigo-techmology relative min-h-screen w-full">
@@ -114,7 +146,7 @@ const DetailsSection = () => {
                 <div
                   key={feature.id}
                   ref={(el) => { featureRefs.current[i] = el }}
-                  className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm"
+                  className="feature-item flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm"
                 >
                   <div className="relative w-5 h-5 mt-0.5 flex-shrink-0 flex justify-center items-center rounded-full bg-[#11111133]">
                     <div className="absolute w-4 h-4 rounded-full bg-[#11111199]" />
@@ -177,38 +209,31 @@ const DetailsSection = () => {
       </div>
 
       {/* SECOND SECTION */}
-      <div className="emigo-technology-details hidden md:flex min-h-screen w-full ">
+      <div className="emigo-technology-details hidden md:flex min-h-screen w-full">
+        <div className="w-1/2 flex items-center">
+          <div className="w-full max-w-xl">
+            {features.map((feature, i) => (
+              <div key={feature.id}>
+                <div className="py-8">
+                  <p className="text-lg font-semibold mb-2">
+                    {feature.title}
+                  </p>
+                  <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line">
+                    {feature.description}
+                  </p>
+                </div>
+                {i !== features.length - 1 && (
+                  <div className="h-px w-full bg-gray-200" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
 
-    <div className="w-1/2 flex items-center ">
-        <div className="w-full max-w-xl">
-
-             {features.map((feature, i) => (
-            <div key={feature.id}>
-
-               <div className="py-8">
-              <p className="text-lg font-semibold mb-2">
-                  {feature.title}
-                </p>
-
-             <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line">
-               {feature.description}
-             </p>
-         </div>
-
-        {/* Divider (except last item) */}
-           {i !== features.length - 1 && (
-              <div className="h-px w-full bg-gray-200" />
-           )}
+        {/* RIGHT SIDE — empty, bottle moves here via GSAP */}
+        <div className="w-1/2 relative flex items-center justify-center" />
       </div>
-    ))}
 
-  </div>
-</div>
-
-{/* RIGHT SIDE — EMPTY (Bottle moves here) */}
-<div className="w-1/2 relative flex items-center justify-center" />
-
-</div>
     </section>
   )
 }
