@@ -17,7 +17,8 @@ const DetailsSection = () => {
   const titleRef = useRef<HTMLDivElement>(null)
   const bottleRef = useRef<HTMLImageElement>(null)
   const featureRefs = useRef<(HTMLDivElement | null)[]>([])
-
+  const firstSectionRef = useRef<HTMLDivElement>(null)
+  const secondSectionRef = useRef<HTMLDivElement>(null)
   const bottleWidth = Math.round(Math.min(Math.max(width * 0.22, 160), 320))
   const lineWidth = Math.round(Math.min(Math.max(width * 0.055, 40), 80))
   const titleSize = Math.round(Math.min(Math.max(width * 0.012, 12), 16))
@@ -28,9 +29,10 @@ const DetailsSection = () => {
 
     const ctx = gsap.context(() => {
       // ── FIRST SECTION ANIMATIONS ──────────────────────────────────────────
-      const firstSection = document.querySelector('.emigo-techmology')
-      if (firstSection) {
-        const firstElements = firstSection.querySelectorAll('h1, p, .feature-item')
+      if (firstSectionRef.current) {
+        const firstElements =
+        firstSectionRef.current.querySelectorAll('h1, p, .feature-item') 
+        
         gsap.set(firstElements, { opacity: 0, y: 40 })
         gsap.to(firstElements, {
           opacity: 1,
@@ -39,7 +41,7 @@ const DetailsSection = () => {
           ease: 'power3.out',
           stagger: 0.15,
           scrollTrigger: {
-            trigger: firstSection,
+            trigger: firstSectionRef.current,
             start: 'top 70%',
             toggleActions: 'play none none reverse',
           },
@@ -47,9 +49,9 @@ const DetailsSection = () => {
       }
 
       // ── SECOND SECTION ANIMATIONS ─────────────────────────────────────────
-      const secondSection = document.querySelector('.emigo-technology-details')
-      if (secondSection) {
-        const secondElements = secondSection.querySelectorAll('p')
+      if (secondSectionRef.current) {
+        const secondElements =
+        secondSectionRef.current.querySelectorAll(' p')
         gsap.set(secondElements, { opacity: 0, y: 40 })
         gsap.to(secondElements, {
           opacity: 1,
@@ -58,7 +60,7 @@ const DetailsSection = () => {
           ease: 'power3.out',
           stagger: 0.2,
           scrollTrigger: {
-            trigger: secondSection,
+            trigger: secondSectionRef.current,
             start: 'top 70%',
             toggleActions: 'play none none reverse',
           },
@@ -108,7 +110,7 @@ const DetailsSection = () => {
     <section ref={sectionRef} className="min-h-screen relative px-10 overflow-hidden">
 
       {/* FIRST SECTION */}
-      <div className="emigo-techmology relative min-h-screen w-full">
+      <div ref={firstSectionRef} className="emigo-techmology relative min-h-screen w-full">
 
         <div className="absolute w-full h-full opacity-5 right-1/2">
           <img
@@ -209,7 +211,7 @@ const DetailsSection = () => {
       </div>
 
       {/* SECOND SECTION */}
-      <div className="emigo-technology-details hidden md:flex min-h-screen w-full">
+      <div ref={secondSectionRef} className="emigo-technology-details hidden md:flex min-h-screen w-full">
         <div className="w-1/2 flex items-center">
           <div className="w-full max-w-xl">
             {features.map((feature, i) => (
