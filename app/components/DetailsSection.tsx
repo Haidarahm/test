@@ -50,95 +50,100 @@ const DetailsSection = () => {
   const isMobile = width > 0 && width < 768
 
   return (
-    <section ref={sectionRef} className="emigo-technology min-h-screen relative overflow-hidden">
-      <div className="background absolute w-full h-full opacity-5 right-1/2">
-        <img src="/images/background.jpg" alt="" />
-      </div>
+    <section ref={sectionRef} className=" min-h-screen relative overflow-hidden">
+      <div className="emigo-techmology relative top-0 min-h-screen w-full">
 
-      {isMobile ? (
-        <div className="relative z-10 flex flex-col items-center gap-8 px-6 pt-10 pb-16">
-          <div ref={titleRef} className="text-center flex flex-col items-center gap-3">
-            <h1
-              className="title uppercase font-semibold leading-[100%]"
-              style={{ fontSize: 'clamp(26px, 8vw, 34px)' }}
-            >
-              emigo <br /> advanced <br /> technology
-            </h1>
-            <p className="font-light uppercase leading-snug text-[13px] text-gray-500">
-              The emiGo container combines built‑in <br />
-              heating and smart sensors for precise <br />
-              temperature control every time
-            </p>
-          </div>
-
-          <img
-            ref={bottleRef}
-            src="/images/bottle.png"
-            alt="emiGo container"
-            style={{ width: Math.min(width * 0.55, 240) }}
-            className="h-auto rotate-15 drop-shadow-2xl"
-          />
-
-          <div className="w-full flex flex-col gap-5">
-            {features.map((feature, i) => (
-              <div
-                key={feature.id}
-                ref={(el) => { featureRefs.current[i] = el }}
-                className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm"
-              >
-                <div className="dots relative w-5 h-5 mt-0.5 flex-shrink-0 flex justify-center items-center rounded-full bg-[#11111133]">
-                  <div className="absolute w-4 h-4 rounded-full bg-[#11111199]" />
-                  <div className="absolute w-2 h-2 rounded-full bg-[#111111]" />
-                </div>
-                <div>
-                  <p className="font-semibold text-[14px] leading-tight mb-0.5">{feature.title}</p>
-                  <p className="font-light text-[12px] leading-snug text-gray-500 whitespace-pre-line">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="background absolute w-full h-full opacity-5 right-1/2">
+          <img src="/images/background.jpg" alt="" />
         </div>
-      ) : (
-        <>
-          <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right flex flex-col justify-end gap-4">
-            <h1
-              className="title uppercase font-semibold leading-[100%]"
-              style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}
-            >
-              emigo <br /> advanced <br /> technology
-            </h1>
-            <p className="font-light uppercase leading-snug text-[14px]">
-              The emiGo container combines built in <br />
-              heating and smart sensors for precise <br />
-              temperature control every time
-            </p>
-          </div>
 
-          <div className="absolute inset-0 flex items-center justify-center z-0">
+        {isMobile ? (
+          <div className="relative z-10 flex flex-col items-center gap-8 px-6 pt-10 pb-16">
+            <div ref={titleRef} className="text-center flex flex-col items-center gap-3">
+              <h1
+                className="title uppercase font-semibold leading-[100%]"
+                style={{ fontSize: 'clamp(26px, 8vw, 34px)' }}
+              >
+                emigo <br /> advanced <br /> technology
+              </h1>
+              <p className="font-light uppercase leading-snug text-[13px] text-gray-500">
+                The emiGo container combines built‑in <br />
+                heating and smart sensors for precise <br />
+                temperature control every time
+              </p>
+            </div>
+
             <img
               ref={bottleRef}
               src="/images/bottle.png"
               alt="emiGo container"
-              style={{ width: bottleWidth }}
+              style={{ width: Math.min(width * 0.55, 240) }}
               className="h-auto rotate-15 drop-shadow-2xl"
             />
-          </div>
 
-          {features.map((feature, i) => (
-            <FeatureAnnotation
-              key={feature.id}
-              ref={(el) => { featureRefs.current[i] = el }}
-              feature={feature}
-              width={width}
-              lineWidth={lineWidth}
-              titleSize={titleSize}
-              descSize={descSize}
-            />
-          ))}
-        </>
-      )}
+            <div className="w-full flex flex-col gap-5">
+              {features.map((feature, i) => (
+                <div
+                  key={feature.id}
+                  ref={(el) => { featureRefs.current[i] = el }}
+                  className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm"
+                >
+                  <div className="dots relative w-5 h-5 mt-0.5 flex-shrink-0 flex justify-center items-center rounded-full bg-[#11111133]">
+                    <div className="absolute w-4 h-4 rounded-full bg-[#11111199]" />
+                    <div className="absolute w-2 h-2 rounded-full bg-[#111111]" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[14px] leading-tight mb-0.5">{feature.title}</p>
+                    <p className="font-light text-[12px] leading-snug text-gray-500 whitespace-pre-line">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            <div ref={titleRef} className="title-description absolute top-6 right-6 z-10 text-right flex flex-col justify-end gap-4">
+              <h1
+                className="title uppercase font-semibold leading-[100%]"
+                style={{ fontSize: `clamp(20px, ${width * 0.022}px, 34px)` }}
+              >
+                emigo <br /> advanced <br /> technology
+              </h1>
+              <p className="font-light uppercase leading-snug text-[14px]">
+                The emiGo container combines built in <br />
+                heating and smart sensors for precise <br />
+                temperature control every time
+              </p>
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center z-0">
+              <img
+                ref={bottleRef}
+                src="/images/bottle.png"
+                alt="emiGo container"
+                style={{ width: bottleWidth }}
+                className="h-auto rotate-15 drop-shadow-2xl"
+              />
+            </div>
+
+            {features.map((feature, i) => (
+              <FeatureAnnotation
+                key={feature.id}
+                ref={(el) => { featureRefs.current[i] = el }}
+                feature={feature}
+                width={width}
+                lineWidth={lineWidth}
+                titleSize={titleSize}
+                descSize={descSize}
+              />
+            ))}
+          </>
+        )}
+      </div>
+      <div className="emigo-techmology-details min-h-screen w-full">
+      </div>
     </section>
   )
 }
