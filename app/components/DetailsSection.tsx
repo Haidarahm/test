@@ -51,7 +51,7 @@ const DetailsSection = () => {
       // ── SECOND SECTION ANIMATIONS ─────────────────────────────────────────
       if (secondSectionRef.current) {
         const secondElements =
-        secondSectionRef.current.querySelectorAll(' p')
+        secondSectionRef.current.querySelectorAll('p')
         gsap.set(secondElements, { opacity: 0, y: 40 })
         gsap.to(secondElements, {
           opacity: 1,
@@ -68,7 +68,7 @@ const DetailsSection = () => {
       }
 
       // ── BOTTLE SCROLL ANIMATION (desktop only) ────────────────────────────
-      if (!isMobile && bottleRef.current) {
+      if (!isMobile && secondSectionRef.current) {
         const bottle = bottleRef.current
         const section = sectionRef.current
 
@@ -93,9 +93,9 @@ const DetailsSection = () => {
           rotate: 0,
           y: moveY + 400,
           scrollTrigger: {
-            trigger: '.emigo-techmology',
+            trigger: firstSectionRef.current,
             start: 'top+=30% top',
-            endTrigger: '.emigo-technology-details',
+            endTrigger: secondSectionRef.current,
             end: 'top center',
             scrub: 1.5,
           },
@@ -104,7 +104,7 @@ const DetailsSection = () => {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [width, isMobile])
+  }, [width])
 
   return (
     <section ref={sectionRef} className="min-h-screen relative px-10 overflow-hidden">
