@@ -1,4 +1,4 @@
-export const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 } as const
+export const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 ,'3xl': 1920} as const
 export type Breakpoint = keyof typeof BREAKPOINTS
 export type ScreenPos = { top: string; left?: string; right?: string }
 
@@ -7,7 +7,7 @@ export type Feature = {
   title: string
   description: string
   side: 'left' | 'right'
-  positions: { default: ScreenPos; sm?: ScreenPos; md?: ScreenPos; lg?: ScreenPos; xl?: ScreenPos; '2xl'?: ScreenPos }
+  positions: { default: ScreenPos; sm?: ScreenPos; md?: ScreenPos; lg?: ScreenPos; xl?: ScreenPos; '2xl'?: ScreenPos; '3xl'?: ScreenPos }
 }
 
 export const features: Feature[] = [
@@ -23,6 +23,7 @@ export const features: Feature[] = [
       lg:      { top: '22%', left: '23%' },
       xl:      { top: '22%', left: '25%' },
       '2xl':   { top: '29%', left: '26%' },
+      '3xl':   { top: '34%', left: '26%' },
     },
   },
   {
@@ -37,6 +38,7 @@ export const features: Feature[] = [
       lg:      { top: '58%', left: '17%' },
       xl:      { top: '60%', left: '20%' },
       '2xl':   { top: '60%', left: '22%' },
+      '3xl':   { top: '60%', left: '22%' },
     },
   },
   {
@@ -51,12 +53,13 @@ export const features: Feature[] = [
       lg:      { top: '38%', right: '20%' },
       xl:      { top: '40%', right: '20%' },
       '2xl':   { top: '40%', right: '22%' },
+      '3xl':   { top: '40%', right: '22%' },
     },
   },
 ]
 
 export function resolvePosition(positions: Feature['positions'], width: number): ScreenPos {
-  const order: (Breakpoint | 'default')[] = ['2xl', 'xl', 'lg', 'md', 'sm', 'default']
+  const order: (Breakpoint | 'default')[] = ['3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'default']
   for (const bp of order) {
     if (bp === 'default') return positions.default
     if (width >= BREAKPOINTS[bp] && positions[bp]) return positions[bp]!

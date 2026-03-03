@@ -28,7 +28,6 @@ const DetailsSection = () => {
     if (!width) return
 
     const ctx = gsap.context(() => {
-      // ── FIRST SECTION ANIMATIONS ──────────────────────────────────────────
       if (firstSectionRef.current) {
         const firstElements =
         firstSectionRef.current.querySelectorAll('h1, p, .feature-item') 
@@ -48,7 +47,6 @@ const DetailsSection = () => {
         })
       }
 
-      // ── SECOND SECTION ANIMATIONS ─────────────────────────────────────────
       if (secondSectionRef.current) {
         const secondElements =
         secondSectionRef.current.querySelectorAll('p')
@@ -68,30 +66,35 @@ const DetailsSection = () => {
       }
 
       // ── BOTTLE SCROLL ANIMATION (desktop only) ────────────────────────────
-      if (!isMobile && secondSectionRef.current) {
+      if (!isMobile && secondSectionRef.current && bottleRef.current) {
         const bottle = bottleRef.current
-        const section = sectionRef.current
-
-        const sectionStyles = section ? window.getComputedStyle(section) : null
-        const paddingLeft = sectionStyles ? parseFloat(sectionStyles.paddingLeft) : 0
-        const paddingRight = sectionStyles ? parseFloat(sectionStyles.paddingRight) : 0
-
-        const availableWidth = width - paddingLeft - paddingRight
-        const moveX = availableWidth * 0.3 + paddingLeft
-        const moveY = window.innerHeight * 0.35
-
-        gsap.set(bottle, {
-          rotate: 15,
-          x: 0,
-          y: 0,
-          transformOrigin: 'center center',
-          willChange: 'transform',
-        })
-
+        const rightSide =
+          secondSectionRef.current.querySelector('.bottle-target')
+      
+        if (!rightSide) return
+      
+        const bottleRect = bottle.getBoundingClientRect()
+        const targetRect = rightSide.getBoundingClientRect()
+      
+        // Calculate exact center difference
+        const moveX =
+          targetRect.left +
+          targetRect.width / 2 -
+          (bottleRect.left + bottleRect.width / 2)
+      
+        const moveY =
+          targetRect.top +
+          targetRect.height / 2 -
+          (bottleRect.top + bottleRect.height / 2)
+          gsap.set(bottle, {
+            rotate: 15,
+            transformOrigin: 'center center',
+          })
         gsap.to(bottle, {
           x: moveX,
+          y: moveY,
           rotate: 0,
-          y: moveY + 400,
+          ease: 'none',
           scrollTrigger: {
             trigger: firstSectionRef.current,
             start: 'top+=30% top',
@@ -211,8 +214,8 @@ const DetailsSection = () => {
       </div>
 
       {/* SECOND SECTION */}
-      <div ref={secondSectionRef} className="emigo-technology-details hidden md:flex min-h-screen w-full">
-        <div className="w-1/2 flex items-center">
+      <div ref={secondSectionRef} className="emigo-technology-details hidden md:flex min-h-screen w-full ">
+        <div className="w-1/2 flex items-center justify-center">
           <div className="w-full max-w-xl">
             {features.map((feature, i) => (
               <div key={feature.id}>
@@ -233,7 +236,7 @@ const DetailsSection = () => {
         </div>
 
         {/* RIGHT SIDE — empty, bottle moves here via GSAP */}
-        <div className="w-1/2 relative flex items-center justify-center" />
+        <div className="w-1/2 relative flex items-center justify-center bottle-target" />
       </div>
 
     </section>
